@@ -27,7 +27,7 @@ public class CalculatorBiner extends JFrame {
         // Panel Input
         JPanel inputPanel = new JPanel(new GridLayout(3, 2, 10, 10));
         inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        
+
         JPanel panel1 = new JPanel(new FlowLayout());
         panel1.add(new JLabel("Bilangan Biner 1: "));
         inputBiner1 = new JTextField(10);
@@ -36,7 +36,7 @@ public class CalculatorBiner extends JFrame {
         inputDesimal1 = new JTextField(10);
         panel1.add(inputDesimal1);
         inputPanel.add(panel1);
-        
+
         JPanel panel2 = new JPanel(new FlowLayout());
         panel2.add(new JLabel("Bilangan Biner 2: "));
         inputBiner2 = new JTextField(10);
@@ -52,7 +52,7 @@ public class CalculatorBiner extends JFrame {
         operasiBox = new JComboBox<>(operasi);
         panel3.add(operasiBox);
         inputPanel.add(panel3);
-        
+
         add(inputPanel, BorderLayout.CENTER);
 
         // Tombol Hitung & Reset
@@ -86,6 +86,7 @@ public class CalculatorBiner extends JFrame {
 
         inputDesimal1.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
+                enforceDecimalInput(inputDesimal1);
                 syncDecimalToBinary(inputDesimal1, inputBiner1);
             }
         });
@@ -99,6 +100,7 @@ public class CalculatorBiner extends JFrame {
 
         inputDesimal2.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
+                enforceDecimalInput(inputDesimal2);
                 syncDecimalToBinary(inputDesimal2, inputBiner2);
             }
         });
@@ -122,6 +124,14 @@ public class CalculatorBiner extends JFrame {
     private void enforceBinaryInput(JTextField binField) {
         String text = binField.getText();
         binField.setText(text.replaceAll("[^01]", ""));
+    }
+
+    private void enforceDecimalInput(JTextField decField) {
+        String text = decField.getText();
+        if (!text.matches("\\d*")) {
+            JOptionPane.showMessageDialog(this, "Error: Hanya angka yang diperbolehkan dalam input desimal!", "Input Tidak Valid", JOptionPane.ERROR_MESSAGE);
+            decField.setText(text.replaceAll("[^\\d]", "")); // Remove invalid characters
+        }
     }
 
     private void syncBinaryToDecimal(JTextField binField, JTextField decField) {
